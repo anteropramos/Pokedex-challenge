@@ -1,11 +1,11 @@
-import { fetchPokemonDetatils } from '../../api/fetchPokemonDetails';
 import { Button, capitalize, TextField, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { PokemonRotator } from './PokemonRotator';
 import Grid from '@mui/material/Grid2';
 import { PokemonStatsChart } from './PokemonStatsChart';
 import { Loading } from '../utils/Loading';
-import { Pokemon, PokemonStats } from '../../types/pokemons';
+import { Pokemon, PokemonDetails } from '../../../types/pokemons';
+import { fetchPokemonDetatils } from '../../api/pokemonDetails/fetchPokemonDetails';
 
 interface PokemonIndividualDataProps {
   pokemonName: string;
@@ -16,7 +16,7 @@ interface PokemonIndividualDataProps {
 }
 
 export const PokemonIndividualData = ({ pokemonName, ...props }: PokemonIndividualDataProps) => {
-  const [details, setDetails] = useState<PokemonStats | undefined>(undefined);
+  const [details, setDetails] = useState<PokemonDetails | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = useCallback(async () => {
@@ -41,8 +41,8 @@ export const PokemonIndividualData = ({ pokemonName, ...props }: PokemonIndividu
             <Typography variant="h4" align="center" color="primary" gutterBottom>
               {capitalize(details.name)}
             </Typography>
-            <Typography variant="body1" align="center" color="textSecondary">
-              <Typography>{`Types: ${details.types.join(', ')}`}</Typography>
+            <Typography sx={{ justifySelf: 'center', color: 'black' }}>
+              {`Types: ${details.types.join(', ')}`}
             </Typography>
           </Grid>
 

@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { AlertColor } from '@mui/material';
-
-interface AlertMessage {
-  message: string;
-  severity?: AlertColor;
-}
+import { AlertMessage } from '../types/common';
 
 export const useAlert = () => {
   const [alertIsOn, setAlertIsOn] = useState(false);

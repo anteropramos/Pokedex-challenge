@@ -1,10 +1,10 @@
 import React from 'react';
 import Grid from '@mui/material/Grid2';
 import { Pagination, Typography } from '@mui/material';
-import { LOCAL_STORAGE_VALUES, PAGE_LIMIT } from '../../constants';
-import { ToCatchPokemonCard } from '../../ToCatchPokemonCard';
-import { Pokemon } from '../../types/pokemons';
-import { getFromLocalStorage } from '../../utils/localStorage';
+import { ToCatchPokemonCard } from './ToCatchPokemonCard';
+import { LOCAL_STORAGE_VALUES, PAGE_LIMIT } from '../../../constants';
+import { getFromLocalStorage } from '../../../utils/localStorage';
+import { Pokemon } from '../../../types/pokemons';
 
 type PokemonsToCatchProps = {
   pokemonsToCatch: Pokemon[];
@@ -50,7 +50,6 @@ export const PokemonsToCatch = ({
               <ToCatchPokemonCard
                 key={`${pokemon.name}-${index}`}
                 pokemon={pokemon}
-                caught={false}
                 openStatsModal={handleToggleStatsModal}
                 handleCatchPokemon={handleCatchPokemon}
               />

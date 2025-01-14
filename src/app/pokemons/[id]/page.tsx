@@ -16,7 +16,7 @@ const IndividualPokemonPage = () => {
         height: '100vh',
       }}
     >
-      <PokemonIndividualData pokemonName={params?.id as string} />
+      <PokemonIndividualData pokemonName={(params?.id as string).toLowerCase()} />
     </Box>
   );
 };

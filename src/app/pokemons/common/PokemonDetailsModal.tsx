@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import { PokemonIndividualData } from './PokemonIndividualData';
-import { Pokemon } from '../../types/pokemons';
+import { Pokemon } from '../../../types/pokemons';
 
 interface PokemonStatsModalProps {
   isOpen: boolean;
@@ -49,9 +49,9 @@ export const PokemonStatsModal = ({
       >
         <PokemonIndividualData
           pokemonName={pokemonName}
-          handleChangeNote={handleChangeNote}
-          pokedexPokemon={pokedexPokemon}
           note={note}
+          pokedexPokemon={pokedexPokemon}
+          handleChangeNote={handleChangeNote}
           handleCloseModal={handleCloseModal}
         />
       </Box>

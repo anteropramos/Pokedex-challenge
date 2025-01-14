@@ -3,56 +3,27 @@
 import { Box, Button, Card, styled, Typography } from '@mui/material';
 import React from 'react';
 import { capitalize } from 'lodash';
-import { FormattedLabel } from './pokemons/utils/FormattedLabel';
-import { ShareButton } from './pokemons/common/ShareButton';
-import { Pokemon } from './types/pokemons';
+import { FormattedLabel } from '../utils/FormattedLabel';
+import { ShareButton } from '../common/ShareButton';
+import { Pokemon } from '../../../types/pokemons';
+import Image from 'next/image';
+import { StyledPokemonCardStyles } from './PokemonStyles';
 
 type CaughtPokemon = {
   pokemon: Pokemon;
-  caught: boolean;
   openStatsModal: (pokemonName: string) => void;
   handleCatchPokemon?: (name: string) => void;
 };
 
-const StyledCard = styled(Card)`
-  cursor: pointer;
-  margin: 1rem;
-  width: 100%;
-  max-width: 300px;
-  height: 350px;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-`;
-
-const StyledImg = styled('img')<{ caught?: boolean }>`
+const StyledImg = styled(Image)`
   width: 100%;
   height: 150px;
   object-fit: cover;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-
-  ${({ caught }) =>
-    !caught &&
-    `
-      filter: grayscale(100%);
-      opacity: 0.6;
-  `}
+  filter: grayscale(100%);
+  opacity: 0.6;
 `;
 
-export const ToCatchPokemonCard = ({ pokemon, caught, handleCatchPokemon, openStatsModal }: CaughtPokemon) => {
+export const ToCatchPokemonCard = ({ pokemon, handleCatchPokemon, openStatsModal }: CaughtPokemon) => {
   const handleClickPokemon = () => {
     openStatsModal(pokemon.name);
   };
@@ -60,15 +31,16 @@ export const ToCatchPokemonCard = ({ pokemon, caught, handleCatchPokemon, openSt
   const formattedDate = pokemon.capturedDate ? `Captured on ${pokemon.capturedDate}` : 'Not captured yet';
 
   return (
-    <StyledCard>
+    <Card sx={StyledPokemonCardStyles}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} onClick={handleClickPokemon}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}></Box>
-        <StyledImg caught={caught} src={pokemon.image as string} />
+        <StyledImg src={pokemon.image as string} alt={pokemon.name} width={300} height={350} />
         <Typography variant="h6">{capitalize(pokemon.name)}</Typography>
         <FormattedLabel label={formattedDate} />{' '}
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Button
+          id={`to-catch-${pokemon.name}`}
           variant="contained"
           color="success"
           onClick={() => {
@@ -86,6 +58,6 @@ export const ToCatchPokemonCard = ({ pokemon, caught, handleCatchPokemon, openSt
           variant="success"
         />
       </Box>
-    </StyledCard>
+    </Card>
   );
 };

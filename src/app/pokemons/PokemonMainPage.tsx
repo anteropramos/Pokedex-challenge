@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { Box } from '@mui/material';
 
 import { PokemonStatsModal } from './common/PokemonDetailsModal';
-import { useManagePokedex } from '../hooks/useManagePokedex';
 import { Message } from './utils/Message';
 import { Loading } from './utils/Loading';
 import { PokemonsContainer } from './pokemons/PokemonsContainer';
-import { CaughtPokemonsContainer } from './pokedex/CaughtPokemonsContainer';
+import { PokedexContainer } from './pokedex/PokedexContainer';
+import { useManagePokedex } from '../../hooks/useManagePokedex';
 
 export const PokemonMainPage = () => {
   const [isStatModalOpen, setIsStatModalOpen] = useState(false);
@@ -46,7 +46,7 @@ export const PokemonMainPage = () => {
           zIndex: 1,
         }}
       >
-        <CaughtPokemonsContainer
+        <PokedexContainer
           pokemons={pokedex}
           openStatsModal={handleToggleStatsModal}
           handleReleasePokemons={handleReleasePokemons}
@@ -54,11 +54,11 @@ export const PokemonMainPage = () => {
         <PokemonsContainer
           page={page}
           pokemonsToCatch={pokemonsToCatch}
+          pokedexProgress={pokedexProgress}
+          totalCatchedPokemons={pokedex.length}
           handleCatchPokemon={handleCatchPokemon}
           handleChangePage={handleChangePage}
           handleToggleStatsModal={handleToggleStatsModal}
-          pokedexProgress={pokedexProgress}
-          totalCatchedPokemons={pokedex.length}
         />
       </Box>
 
@@ -66,10 +66,10 @@ export const PokemonMainPage = () => {
 
       {isStatModalOpen && (
         <PokemonStatsModal
-          isOpen={isStatModalOpen}
-          closeModal={handleToggleStatsModal}
-          pokemonName={selectedPokemon}
           pokedex={pokedex}
+          isOpen={isStatModalOpen}
+          pokemonName={selectedPokemon}
+          closeModal={handleToggleStatsModal}
           handleAddNoteToPokemon={handleAddNoteToPokemon}
         />
       )}

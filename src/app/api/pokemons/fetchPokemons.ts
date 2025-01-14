@@ -7,7 +7,7 @@ export const fetchPokemons = async (pageOffset: number) => {
         params: { pageOffset },
       })
       .then((response) => response.data);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(error.message);
   }
 };

@@ -1,20 +1,21 @@
-import { isAfter } from 'date-fns';
+import { compareAsc, compareDesc, isAfter, parseISO } from 'date-fns';
+import { POKEDEX_FILTERS, HEIGHT_TYPES, SORT_OPTIONS } from '../constants/sortAndFilter';
 import { Pokemon } from '../types/pokemons';
-import { SORT_OPTIONS } from '../pokemons/common/SortPokemonsButton';
 
 export const filterPokemons = (filter: string, filterValue: string, pokemons: Pokemon[]): Pokemon[] => {
   switch (filter) {
-    case 'name':
+    case POKEDEX_FILTERS.NAME:
       pokemons = pokemons.filter((pokemon) =>
         pokemon.name.toLowerCase().startsWith((filterValue as string).toLowerCase()),
       );
       break;
-    case 'captured-date':
+    case POKEDEX_FILTERS.CAPTURED_DATE:
       pokemons = pokemons.filter((pokemon) => isAfter(new Date(pokemon.capturedDate!), new Date(filterValue!)));
       break;
 
-    case 'height-types':
-      break;
+    case POKEDEX_FILTERS.HEIGHT_TYPE:
+      const { min, max } = HEIGHT_TYPES[filterValue as keyof typeof HEIGHT_TYPES];
+      return pokemons.filter((pokemon) => pokemon.height >= min && pokemon.height <= max);
 
     default:
       break;
@@ -28,9 +29,9 @@ export const sortPokemons = (sortOption: string, pokemons: Pokemon[]) => {
   } else if (sortOption === SORT_OPTIONS.NAME_DESCENDING) {
     pokemons.sort((a, b) => b.name.localeCompare(a.name));
   } else if (sortOption === SORT_OPTIONS.CAPTURED_DATE_ASCENDING) {
-    pokemons.sort((a, b) => new Date(a.capturedDate!).getTime() - new Date(b.capturedDate!).getTime());
+    pokemons.sort((a, b) => compareAsc(parseISO(a.capturedDate!), parseISO(b.capturedDate!)));
   } else if (sortOption === SORT_OPTIONS.CAPTURED_DATE_DESCENDING) {
-    pokemons.sort((a, b) => new Date(b.capturedDate!).getTime() - new Date(a.capturedDate!).getTime());
+    pokemons.sort((a, b) => compareDesc(parseISO(a.capturedDate!), parseISO(b.capturedDate!)));
   }
 
   return pokemons;

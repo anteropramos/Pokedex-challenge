@@ -2,20 +2,14 @@ import React, { useState } from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import SortIcon from '@mui/icons-material/Sort';
 import { capitalize } from 'lodash';
+import { SORT_OPTIONS } from '../../../constants/sortAndFilter';
 
 interface SortButtonProps {
-  sort: string | undefined;
+  sortOption: string | undefined;
   changeSortingOption: (sort: string) => void;
 }
 
-export enum SORT_OPTIONS {
-  CAPTURED_DATE_DESCENDING = 'captured-date-descending',
-  CAPTURED_DATE_ASCENDING = 'captured-date-ascending',
-  NAME_ASCENDING = 'name-ascending',
-  NAME_DESCENDING = 'name-descending',
-}
-
-export const SortPokemonsButton = ({ sort, changeSortingOption }: SortButtonProps) => {
+export const SortPokemonsButton = ({ sortOption, changeSortingOption }: SortButtonProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -44,7 +38,7 @@ export const SortPokemonsButton = ({ sort, changeSortingOption }: SortButtonProp
         MenuListProps={{ 'aria-labelledby': 'sort-button' }}
       >
         {Object.entries(SORT_OPTIONS).map(([key, value]) => (
-          <MenuItem key={key} onClick={() => handleChangeSortOption(value)} selected={sort === value}>
+          <MenuItem key={key} onClick={() => handleChangeSortOption(value)} selected={sortOption === value}>
             {capitalize(key.split('_').join(' '))}
           </MenuItem>
         ))}
