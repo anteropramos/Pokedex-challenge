@@ -1,7 +1,7 @@
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { capitalize } from 'lodash';
 import { useMemo } from 'react';
-import { PokemonStats } from '../../api/pokemonDetails/route';
+import { PokemonStats } from '../../../types/pokemons';
 
 export const PokemonStatsChart = (stats: PokemonStats) => {
   const data = useMemo(() => {

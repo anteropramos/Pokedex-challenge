@@ -3,9 +3,9 @@
 import { Box, Button, Card, styled, Typography } from '@mui/material';
 import React from 'react';
 import { capitalize } from 'lodash';
-import { FormattedLabel } from './pokemons/utils/FormattedLabel';
-import { ShareButton } from './pokemons/common/ShareButton';
-import { Pokemon } from './types/pokemons';
+import { FormattedLabel } from '../utils/FormattedLabel';
+import { ShareButton } from '../common/ShareButton';
+import { Pokemon } from '../../../types/pokemons';
 
 type CaughtPokemon = {
   pokemon: Pokemon;
@@ -22,7 +22,6 @@ const StyledCard = styled(Card)`
   height: 350px;
   padding: 1rem;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
@@ -69,6 +68,7 @@ export const ToCatchPokemonCard = ({ pokemon, caught, handleCatchPokemon, openSt
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Button
+          id={`to-catch-${pokemon.name}`}
           variant="contained"
           color="success"
           onClick={() => {

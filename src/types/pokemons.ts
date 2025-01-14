@@ -9,11 +9,11 @@ export interface Pokemon {
   image?: string | string[];
   capturedDate?: string;
   textNote?: string;
+  height: number;
+  weight: number;
 }
 
 export interface PokemonDetails extends Pokemon {
-  height: number;
-  weight: number;
   stats: PokemonStats;
   types: string[];
 }

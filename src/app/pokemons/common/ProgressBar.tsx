@@ -1,6 +1,6 @@
 import { Box, Typography, LinearProgress } from '@mui/material';
-import { LOCAL_STORAGE_VALUES } from '../../constants';
-import { getFromLocalStorage } from '../../utils/localStorage';
+import { LOCAL_STORAGE_VALUES } from '../../../constants';
+import { getFromLocalStorage } from '../../../utils/localStorage';
 
 interface PokedexProgressBarProps {
   pokedexProgress: number;
