@@ -3,28 +3,31 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 
-import { PokemonFilters } from './PokemonFilters';
-import { CaughtPokemonCard } from './CaughtPokemonCard';
+import { PokedexFilters } from './pokedexFilters/PokedexFilters';
+import { PokedexCard } from './PokedexCard';
 import { PokemonSettingsButton } from '../common/PokemonSettingsButton';
-import { Pokemon } from '../../types/pokemons';
-import { filterPokemons, sortPokemons } from '../../utils/sortingAndFiltering';
+import { Pokemon } from '../../../types/pokemons';
+import {
+  FilterContainerStyles,
+  PokedexContainerStyles,
+  ReleasePokemonButtonStyles,
+  ReleaseTitleStyles,
+  StickyContainerStyles,
+} from './PokedexStyles';
+import { filterPokemons, sortPokemons } from '../../../utils/sortingAndFiltering';
 
-interface CaughtPokemonsContainerProps {
+interface PokedexContainerProps {
   pokemons: Pokemon[];
   openStatsModal: (pokemonName: string) => void;
   handleReleasePokemons: (name: string[]) => void;
 }
 
-export const CaughtPokemonsContainer = ({
-  pokemons,
-  handleReleasePokemons,
-  openStatsModal,
-}: CaughtPokemonsContainerProps) => {
+export const PokedexContainer = ({ pokemons, handleReleasePokemons, openStatsModal }: PokedexContainerProps) => {
   const [filter, setFilter] = useState('name');
   const [filterValue, setFilterValue] = useState<string>('');
 
   const [selectedPokemons, setSelectedPokemons] = useState<string[]>([]);
-  const [filteredPokemons, setFilteredPokemons] = useState<Pokemon[]>(pokemons);
+  const [filteredPokemons, setFilteredPokemons] = useState<Pokemon[]>(pokemons || []);
 
   const [sort, setSort] = useState<string | undefined>();
 
@@ -63,7 +66,6 @@ export const CaughtPokemonsContainer = ({
 
   const handleChangeFilter = (filter: string) => {
     setFilter(filter);
-    setFilterValue('');
   };
 
   const handleChangeFilterValue = (filter: string) => {
@@ -77,63 +79,40 @@ export const CaughtPokemonsContainer = ({
 
   return (
     <>
-      <Box sx={{ backgroundColor: '#FF6F61', overflowY: 'auto', padding: '1.2rem', width: { xs: '100%', md: '30%' } }}>
-        <Box
-          sx={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              margin: 'auto',
-              alignContent: 'center',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Typography
-              variant="h4"
-              sx={{
-                marginBottom: '1.2rem',
-                textAlign: 'center',
-                justifySelf: 'center',
-                color: 'black',
-              }}
-            >
+      <Box sx={PokedexContainerStyles}>
+        <Box sx={StickyContainerStyles}>
+          <Box sx={FilterContainerStyles}>
+            <Typography variant="h4" sx={ReleaseTitleStyles}>
               Pokédex ({filteredPokemons.length})
             </Typography>
             <Box sx={{ alignSelf: 'start' }}>
               <PokemonSettingsButton pokemons={pokemons} />
             </Box>
           </Box>
-          <PokemonFilters
+
+          <PokedexFilters
             filter={filter}
             filterValue={filterValue}
+            sort={sort}
             handleChangeFilter={handleChangeFilter}
             handleChangeFilterValue={handleChangeFilterValue}
-            sort={sort}
             changeSortingOption={handleSortChange}
           />
+
           <Button
+            id={'release-pokemons-button'}
             variant="contained"
             onClick={releasePokemons}
             disabled={selectedPokemons.length === 0}
             color="warning"
-            sx={{
-              width: '100%',
-              marginTop: 3,
-              marginBottom: 3,
-              fontWeight: 'bold',
-            }}
+            sx={ReleasePokemonButtonStyles}
           >
             Release Pokémons
           </Button>
         </Box>
+        {/* virtualizer lista para melhorar performance */}
         {(filteredPokemons || []).map((pokemon, index) => (
-          <CaughtPokemonCard
+          <PokedexCard
             key={`${pokemon.name}-${index}`}
             pokemon={pokemon}
             openStatsModal={openStatsModal}

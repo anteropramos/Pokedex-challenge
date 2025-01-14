@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import { PokemonsHeader } from './PokemonsHeader';
 import { PokemonsToCatch } from './PokemonsToCatch';
-import { Pokemon } from '../../types/pokemons';
+import { Pokemon } from '../../../types/pokemons';
 
 type PokemonsContainerProps = {
   page: number;

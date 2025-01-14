@@ -24,11 +24,9 @@ const serwist = new Serwist({
       handler: function (options: RouteHandlerCallbackOptions): Promise<Response> {
         return caches.match(options.request).then((cachedResponse) => {
           if (cachedResponse) {
-            console.log('Serving from cache:', options.request.url);
             return cachedResponse;
           }
 
-          console.log('Fetching and caching:', options.request.url);
           return fetch(options.request)
             .then((response) => {
               const clonedResponse = response.clone();
@@ -80,9 +78,8 @@ const serwist = new Serwist({
       },
     },
     {
-      matcher: /localhost:3000/,
+      matcher: /localhost:3000\/pokemons/,
       handler: function (options: RouteHandlerCallbackOptions): Promise<Response> {
-        // Cache local Pokemon API responses
         return caches.match(options.request).then((cachedResponse) => {
           return (
             cachedResponse ||
@@ -107,11 +104,9 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
         if (cachedResponse) {
-          console.log('Serving cached HTML:', event.request.url);
           return cachedResponse;
         }
 
-        console.log('Fetching and caching HTML:', event.request.url);
         return fetch(event.request)
           .then((networkResponse) => {
             return caches.open('offline-cache').then((cache) => {

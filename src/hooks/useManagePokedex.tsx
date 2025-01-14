@@ -1,13 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { fetchPokemons } from '../api/fetchPokemons';
-import { getFromLocalStorage, saveToLocalStorage } from '../utils/localStorage';
-import { LOCAL_STORAGE_VALUES, PAGE_LIMIT } from '../constants';
-import { AlertColor } from '@mui/material';
 import { useAlert } from './useAlert';
-import { formatDate } from '../utils/date';
+import { fetchPokemons } from '../app/api/pokemons/fetchPokemons';
+import { LOCAL_STORAGE_VALUES, PAGE_LIMIT } from '../constants';
+import { AlertMessage } from '../types/common';
 import { Pokemon, AllPokemons, PokemonDetails } from '../types/pokemons';
+import { formatDate } from '../utils/date';
+import { getFromLocalStorage, saveToLocalStorage } from '../utils/localStorage';
 
 export interface IProps {
   pokedex: Pokemon[];
@@ -23,11 +23,6 @@ export interface IProps {
   handleAddNoteToPokemon: (pokemonName: string, note: string) => void;
 }
 
-interface AlertMessage {
-  message: string;
-  severity?: AlertColor;
-}
-
 export const useManagePokedex = (): IProps => {
   const { alertIsOn, alertMessage, showAlert } = useAlert();
 
@@ -38,9 +33,9 @@ export const useManagePokedex = (): IProps => {
   const [isLoading, setIsLoading] = useState(false);
   const [pokemonsToCatch, setPokemonsToCatch] = useState<Pokemon[]>([]);
   const [pokedex, setPokedex] = useState<Pokemon[]>(cachedPokedexValue || []);
-  const [totalPokemons, setNumberOfPokemons] = useState<number>(cachedTotalNumberOfPokemons || 0);
+  const [numberOfPokemons, setNumberOfPokemons] = useState<number>(cachedTotalNumberOfPokemons || 0);
 
-  const pokedexProgress = (pokedex.length * 100) / totalPokemons;
+  const pokedexProgress = (pokedex.length * 100) / numberOfPokemons || 0;
 
   const buildPokedex = useCallback(
     (data: Pokemon[]): Pokemon[] => {
@@ -59,7 +54,7 @@ export const useManagePokedex = (): IProps => {
         const offset = pages * PAGE_LIMIT;
         const { count, pokemons }: AllPokemons = await fetchPokemons(offset);
 
-        if (totalPokemons === 0) {
+        if (numberOfPokemons === 0) {
           setNumberOfPokemons(count);
           saveToLocalStorage(LOCAL_STORAGE_VALUES.TOTAL_POKEMONS, count);
         }
@@ -71,20 +66,18 @@ export const useManagePokedex = (): IProps => {
             fetchData(nextPage);
             return nextPage;
           });
-
-          return;
         }
 
         setPokemonsToCatch(filteredPokemons);
 
         setNumberOfPokemons(count);
-        setIsLoading(false);
       } catch (e: unknown) {
-        setIsLoading(false);
         console.error('Error:', e);
+      } finally {
+        setIsLoading(false);
       }
     },
-    [buildPokedex, isLoading, totalPokemons],
+    [buildPokedex, isLoading, numberOfPokemons],
   );
 
   useEffect(() => {

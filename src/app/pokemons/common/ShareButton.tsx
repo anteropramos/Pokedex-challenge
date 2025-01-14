@@ -1,8 +1,8 @@
 import { AlertColor, IconButton } from '@mui/material';
 import React from 'react';
 import ShareIcon from '@mui/icons-material/Share';
-import { useAlert } from '../../hooks/useAlert';
 import { Message } from '../utils/Message';
+import { useAlert } from '../../../hooks/useAlert';
 
 type ShareButtonProps = {
   toShare: string;

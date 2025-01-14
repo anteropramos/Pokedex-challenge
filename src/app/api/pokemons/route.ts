@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { NextResponse } from 'next/server';
-import { PAGE_LIMIT } from '../../constants';
-import { Pokemon, AllPokemons } from '../../types/pokemons';
-import { PokemonListingResponse } from '../../types/api';
+import { PAGE_LIMIT } from '../../../constants';
+import { Pokemon, AllPokemons } from '../../../types/pokemons';
+import { PokemonListingResponse } from '../../../types/api';
 
 export async function GET(request: Request) {
   try {
@@ -20,6 +20,8 @@ export async function GET(request: Request) {
       id: pokemon.id,
       name: pokemon.name,
       image: pokemon.sprites.front_default,
+      height: pokemon.height / 10,
+      weight: pokemon.weight,
     }));
 
     return NextResponse.json<AllPokemons>({ count: data.count, pokemons });

@@ -12,7 +12,6 @@ export const getFromLocalStorage = (key: string): Pokemon[] | PokemonDetails[] |
 
     return JSON.parse(localStorageValue);
   } catch (_e: unknown) {
-    console.error('key does not exist');
     return null;
   }
 };

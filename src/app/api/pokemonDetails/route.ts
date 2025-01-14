@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
-import { PokemonDetails } from '../../types/pokemons';
-import { PokemonDetailsResponse } from '../../types/api';
+import { PokemonDetails } from '../../../types/pokemons';
+import { PokemonDetailsResponse } from '../../../types/api';
 
 export async function GET(request: Request) {
   try {
@@ -29,6 +29,8 @@ export async function GET(request: Request) {
 
     return NextResponse.json(pokemonDetails);
   } catch (error: unknown) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
     console.error('Error fetching Pokémon details:', error.message);
     return NextResponse.json({ error: 'Failed to fetch Pokémon details' }, { status: 500 });
   }
